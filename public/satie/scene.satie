@@ -1,0 +1,52 @@
+world Tiny peaceful courtyard garden at twilight; the listener stands at the entrance facing the central circular fountain. Birds perch beyond the far boundary.
+  seed 2026
+  size 40
+  terrain relief 0 roughness 0.05
+  ground weathered stone paving weight 1
+  ground garden soil weight 0.2 near entrance_hedge 0.4
+  strip courtyard_boundary Low stone boundary around the sides and back of the courtyard width 0.5 material rough stone coping and mortared stone flow 0 edge stone paving path -5,0 -5,12 5,12 5,0
+  fixture central_fountain Circular stone fountain with a low round basin and a small trickling spout, six metres ahead of the entrance size 2x0.9x2 material carved stone containing water near listener 6 bearing 0
+  fixture left_lantern Silent warm lantern on a short post size 0.25x1.2x0.25 material painted metal and glass near listener 3 bearing -60
+  fixture right_lantern Silent warm lantern on a short post size 0.25x1.2x0.25 material painted metal and glass near listener 3 bearing 60
+  fixture entrance_hedge Low leafy hedge beside the left side of the entrance size 0.7x0.8x3 material small green leaves and woody twigs porous 0.75 near listener 2.7 bearing -60
+  fixture back_hedge Low clipped hedge along the back of the garden size 8x0.8x0.7 material small green leaves and woody twigs porous 0.75 near listener 11 bearing 0
+  fixture outer_shrub Leafy shrub beyond the far courtyard boundary, holding one stationary songbird size 1.5x2.2x1.5 material green leaves and woody branches porous 0.8 near listener 18 bearing 12
+  weather rain 0 wind 0.2 fog 0
+  time 18:30 season early autumn temp 16
+
+loop gen A small stone fountain trickling steadily into its basin, gentle flowing water with small rounded splashes, close, dry, no other sources.
+  source_id world.fountain_flow
+  catalog_ref stream_small
+  at central_fountain top
+  spl 42
+  gen_key fountain_flow_25d06a2a
+  visual sphere
+loop gen Small hedge leaves lightly rustling in a gentle steady breeze, close, dry, no other sources.
+  source_id world.hedge_breeze
+  catalog_ref wind_open
+  radius 1.5
+  at entrance_hedge
+  spl 35
+  volume follow wind 0to1 0to5
+  gen_key hedge_breeze_4d5e5a14
+  visual sphere
+
+entity evening_birds
+  at outer_shrub top
+  active 4.5to10 17to20.5
+  quiet rain 0.35 wind 0.65
+  spl 75
+  visual sphere
+  loop gen A songbird giving short relaxed evening calls with generous pauses between phrases, close, dry, no other sources.
+    source_id world.evening_birds.evening_calls
+    catalog_ref songbird_song
+    active 16to21
+    quiet rain 0.4 wind 0.6
+    gen_key evening_birds_evening_calls_b149b3ac
+  oneshot gen A songbird giving individual short contact calls with long pauses, close, dry, no other sources.
+    source_id world.evening_birds.morning_calls
+    catalog_ref songbird_song
+    every 35to70
+    quiet rain 0.4 wind 0.6
+    gen_key evening_birds_morning_calls_1ec91db4
+endentity

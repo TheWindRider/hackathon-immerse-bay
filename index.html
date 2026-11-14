@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111a19" />
+    <title>The Courtyard — WebXR</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="world" aria-label="A twilight courtyard garden"></canvas>
+      <section id="welcome" class="welcome">
+        <div class="welcome-card">
+          <p class="eyebrow">A small world, made with Satie</p>
+          <h1>The Courtyard</h1>
+          <p class="description">
+            Step into a quiet garden at twilight. Look toward the fountain and listen.
+          </p>
+          <button id="start" type="button" disabled>Loading world…</button>
+          <p id="status" class="status" role="status">Loading the world and its sound.</p>
+          <p class="hint">Use the VR button to enter with a compatible headset.</p>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
