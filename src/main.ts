@@ -316,6 +316,7 @@ const returnDoor=createDoor(worldRoot,{x:0,z:-2,title:'Return to bedroom - trigg
   setTimeout(()=>{void (async()=>{const session=renderer.xr.getSession();if(session)await session.end();window.location.assign('https://zhenga1.github.io/sound-room-webxr/?from=eden');})().catch(error=>{traveling=false;console.error(error);});},650);
 }});
 const edenControls=new EdenControls(scene,renderer,camera,rig,eden,returnDoor,ambience,outdoorObjects,outdoorTraces);
+outdoorObjects.bindDesktop(canvas,camera,()=>!renderer.xr.isPresenting&&welcome.hidden&&!outdoorTraces.armed);
 outdoorTraces.bindDesktop(canvas,camera,()=>!renderer.xr.isPresenting&&welcome.hidden);
 const pressedKeys=new Set<string>();
 const movementInput=new MovementInput(pressedKeys);
