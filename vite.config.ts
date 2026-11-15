@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import satie from 'satie-runtime/vite';
 
 export default defineConfig({
+  base: './',
   plugins: [satie()],
   server: {
     headers: {

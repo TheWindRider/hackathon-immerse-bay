@@ -4,6 +4,9 @@ import { badge, type SatieBadge } from 'satie-runtime/badge';
 import type { MountedMixer, SatieScene } from 'satie-runtime/three';
 import type { RuntimeContract } from 'satie-runtime/contracts';
 import './style.css';
+import {buildParadise,ParadiseAmbience,createDoor,personalize,moods,islandBounds,islandHeight} from './paradise-world.js';
+import {EdenControls} from './eden-controls';
+import {MovementInput,isEditing} from './movement-input.js';
 
 const canvas = getElement<HTMLCanvasElement>('world');
 const welcome = getElement<HTMLElement>('welcome');
@@ -16,12 +19,12 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.15;
+renderer.toneMappingExposure = 1.3;
 renderer.xr.enabled = true;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color('#172421');
-scene.fog = new THREE.FogExp2('#172421', 0.018);
+scene.background = new THREE.Color('#c0e5e9');
+scene.fog = new THREE.FogExp2('#c0e5e9', 0.006);
 
 const rig = new THREE.Group();
 scene.add(rig);
@@ -31,6 +34,7 @@ camera.position.set(0, 1.6, 0);
 camera.rotation.order = 'YXZ';
 rig.add(camera);
 rig.rotation.y = Math.PI;
+renderer.xr.setReferenceSpaceType('local-floor');
 
 const worldRoot = new THREE.Group();
 worldRoot.name = 'courtyard';
@@ -184,11 +188,11 @@ volumeControl.addEventListener('input', () => {
 
 async function loadSatieAudio(): Promise<SatieScene> {
   const { SatieScene } = await import('satie-runtime/three');
-  const response = await fetch('/satie/scene.contract.json');
+  const response = await fetch(`${import.meta.env.BASE_URL}satie/scene.contract.json`);
   if (!response.ok) {
     throw new Error(`Could not load Satie scene contract (HTTP ${response.status}).`);
   }
-  const samplesResponse = await fetch('/satie/samples.json', { method: 'HEAD' });
+  const samplesResponse = await fetch(`${import.meta.env.BASE_URL}satie/samples.json`, { method: 'HEAD' });
   if (
     !samplesResponse.ok ||
     !samplesResponse.headers.get('content-type')?.includes('json')
@@ -196,7 +200,7 @@ async function loadSatieAudio(): Promise<SatieScene> {
     throw new Error('Satie samples manifest is missing at /satie/samples.json.');
   }
   const contract = (await response.json()) as RuntimeContract;
-  const audio = await SatieScene.load('/satie/scene.satie', '/satie/samples.json', {
+  const audio = await SatieScene.load(`${import.meta.env.BASE_URL}satie/scene.satie`, `${import.meta.env.BASE_URL}satie/samples.json`, {
     contract,
     seed: 2026,
   });
@@ -231,8 +235,8 @@ const audioReady = loadSatieAudio()
             scene,
             camera,
             renderer,
-            script: '/satie/scene.satie',
-            samples: '/satie/samples.json',
+            script: `${import.meta.env.BASE_URL}satie/scene.satie`,
+            samples: `${import.meta.env.BASE_URL}satie/samples.json`,
             collapsed: true,
             capture: false,
             context: () => audio.authoringContext(),
@@ -292,34 +296,34 @@ if (vrButton instanceof HTMLButtonElement) {
 vrButton.addEventListener('click', enterWorld);
 document.body.append(vrButton);
 
-const movementKeys = new Set([
-  'w', 'a', 's', 'd',
-  'arrowup', 'arrowleft', 'arrowdown', 'arrowright',
-]);
-const pressedKeys = new Set<string>();
-
-window.addEventListener('keydown', (event) => {
-  const key = event.key.toLowerCase();
-  if (!movementKeys.has(key) || !welcome.hidden || renderer.xr.isPresenting) {
-    return;
-  }
-  if (
-    event.target instanceof HTMLElement &&
-    event.target.closest('button, input, select, textarea, [contenteditable="true"]')
-  ) {
-    return;
-  }
-  event.preventDefault();
-  pressedKeys.add(key);
-});
-
-window.addEventListener('keyup', (event) => {
-  pressedKeys.delete(event.key.toLowerCase());
-});
-
-window.addEventListener('blur', () => {
-  pressedKeys.clear();
-});
+const eden=buildParadise(scene,worldRoot);
+const ambience=new ParadiseAmbience();ambience.active=true;
+let traveling=false;
+const returnDoor=createDoor(worldRoot,{x:0,z:-2,title:'Return to bedroom - trigger / click',onOpen:()=>{
+  if(traveling)return;traveling=true;
+  setTimeout(()=>{void (async()=>{const session=renderer.xr.getSession();if(session)await session.end();window.location.assign('https://zhenga1.github.io/sound-room-webxr/?from=eden');})().catch(error=>{traveling=false;console.error(error);});},650);
+}});
+const edenControls=new EdenControls(scene,renderer,camera,rig,eden,returnDoor);
+const pressedKeys=new Set<string>();
+const movementInput=new MovementInput(pressedKeys);
+const canWalk=()=>welcome.hidden&&!renderer.xr.isPresenting&&!edenControls.paused&&document.visibilityState!=='hidden'&&document.hasFocus()&&!isEditing(document.activeElement);
+window.addEventListener('keydown',event=>movementInput.down(event,canWalk()),true);
+window.addEventListener('keyup',event=>movementInput.up(event),true);
+const clearMovement=()=>{movementInput.clear();dragging=false;};
+window.addEventListener('blur',clearMovement,true);window.addEventListener('pagehide',clearMovement,true);
+document.addEventListener('visibilitychange',clearMovement,true);document.addEventListener('focusin',event=>{if(isEditing(event.target))clearMovement();},true);
+function syncSliders(){for(const key of ['energy','nature','dreaminess'] as const){const input=document.getElementById('eden-'+key) as HTMLInputElement;input.value=String(Math.round(eden.target[key]*100));}}
+for(const key of ['energy','nature','dreaminess'] as const){document.getElementById('eden-'+key)!.addEventListener('input',event=>{eden.set({[key]:Number((event.target as HTMLInputElement).value)/100});edenControls.rebuild();});}
+document.querySelectorAll<HTMLButtonElement>('[data-mood]').forEach(button=>button.onclick=()=>{eden.set(moods[button.dataset.mood as keyof typeof moods]);syncSliders();edenControls.rebuild();});
+document.getElementById('personalize')!.onclick=()=>{eden.set(personalize((document.getElementById('feeling') as HTMLInputElement).value,(document.getElementById('place') as HTMLInputElement).value));syncSliders();edenControls.rebuild();};
+document.getElementById('pause-here')!.onclick=()=>{edenControls.paused=!edenControls.paused;movementInput.clear();document.getElementById('pause-here')!.textContent=edenControls.paused?'Resume walking':'Pause here';};
+document.getElementById('save-favorite')!.onclick=()=>{const name=(document.getElementById('favorite-name') as HTMLInputElement).value.trim()||'My paradise';localStorage.setItem('inner-eden-favorite',JSON.stringify({name,settings:eden.target}));document.getElementById('save-favorite')!.textContent='Favorite saved';};
+document.getElementById('load-favorite')!.onclick=()=>{try{const favorite=JSON.parse(localStorage.getItem('inner-eden-favorite')||'null');if(favorite?.settings){eden.set(favorite.settings);syncSliders();edenControls.rebuild();}}catch{}};
+document.getElementById('bedroom-link')!.onclick=()=>returnDoor.open();
+startButton.addEventListener('click',()=>{void ambience.start();});syncSliders();
+renderer.xr.addEventListener('sessionstart',()=>{movementInput.clear();document.body.classList.add('xr-mode');});
+renderer.xr.addEventListener('sessionend',()=>{movementInput.clear();document.body.classList.remove('xr-mode');});
+canvas.addEventListener('click',event=>{if(renderer.xr.isPresenting||!welcome.hidden)return;const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(event.clientX/window.innerWidth*2-1,1-event.clientY/window.innerHeight*2),camera);if(ray.intersectObject(returnDoor.hit).length)returnDoor.open();});
 
 renderer.xr.addEventListener('sessionstart', () => {
   credit?.hide();
@@ -383,16 +387,16 @@ const right = new THREE.Vector3();
 let previousFrameTime = 0;
 
 function updateMovement(deltaSeconds: number): void {
-  if (pressedKeys.size === 0 || !welcome.hidden || renderer.xr.isPresenting) {
+  if (pressedKeys.size === 0 || !canWalk()) {
     return;
   }
 
   const forwardAmount =
-    Number(pressedKeys.has('w') || pressedKeys.has('arrowup')) -
-    Number(pressedKeys.has('s') || pressedKeys.has('arrowdown'));
+    Number(pressedKeys.has('KeyW') || pressedKeys.has('ArrowUp')) -
+    Number(pressedKeys.has('KeyS') || pressedKeys.has('ArrowDown'));
   const rightAmount =
-    Number(pressedKeys.has('d') || pressedKeys.has('arrowright')) -
-    Number(pressedKeys.has('a') || pressedKeys.has('arrowleft'));
+    Number(pressedKeys.has('KeyD') || pressedKeys.has('ArrowRight')) -
+    Number(pressedKeys.has('KeyA') || pressedKeys.has('ArrowLeft'));
   if (forwardAmount === 0 && rightAmount === 0) {
     return;
   }
@@ -410,8 +414,7 @@ function updateMovement(deltaSeconds: number): void {
     .normalize();
 
   rig.position.addScaledVector(movement, 2.5 * deltaSeconds);
-  rig.position.x = THREE.MathUtils.clamp(rig.position.x, -4.4, 4.4);
-  rig.position.z = THREE.MathUtils.clamp(rig.position.z, -2, 11.2);
+  const bounds=islandBounds(rig.position.x,rig.position.z);rig.position.x=bounds.x;rig.position.z=bounds.z;rig.position.y=islandHeight(bounds.x,bounds.z);
 }
 
 renderer.setAnimationLoop((time) => {
@@ -419,9 +422,10 @@ renderer.setAnimationLoop((time) => {
     ? 0
     : Math.min((time - previousFrameTime) / 1000, 0.05);
   previousFrameTime = time;
-  updateMovement(deltaSeconds);
+  movementInput.tick(canWalk());updateMovement(deltaSeconds);
+  const listener=edenControls.update(deltaSeconds);eden.update(deltaSeconds,time/1000);ambience.update(listener,eden.settings,time/1000);returnDoor.update(deltaSeconds);
   worldRoot.updateMatrixWorld(true);
-  satieAudio?.update(camera);
+  satieAudio?.update(listener);
   renderer.render(scene, camera);
 });
 
