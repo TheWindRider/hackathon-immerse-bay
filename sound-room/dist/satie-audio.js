@@ -4,6 +4,7 @@ import {SoundEngine} from './audio.js';
 
 const authored=new Set(['books','fan','clock','bird','tv','record','rain']);
 const recordedMusic=new Set(['piano','strings']);
+const BIRD_GAIN_MULTIPLIER=10;
 
 // SATIE owns the seven authored sound types. Recorded music plays through
 // the room's Web Audio player because this SATIE Free plan has no music voices.
@@ -86,7 +87,7 @@ export class SatieSoundEngine {
   mute(s){
     if(recordedMusic.has(s.sound))return this.legacy.mute(s);
     if(!this.scene||!authored.has(s.sound))return;
-    const volume=s.muted?0:s.volume;
+    const volume=s.muted?0:s.volume*(s.sound==='bird'?BIRD_GAIN_MULTIPLIER:1);
     this.scene.engine.scriptStatements.forEach((voice,index)=>{
       if(voice.sourceId===s.sound||voice.sourceId===`${s.sound}_cathedral`||s.type==='bird'&&/^bird_[23](?:_cathedral)?$/.test(voice.sourceId))this.scene.engine.setStatementVolume(index,volume);
     });

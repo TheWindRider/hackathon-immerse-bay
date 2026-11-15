@@ -34,16 +34,17 @@ function cylinder(parent,r1,r2,h,x,y,z,m){const o=new THREE.Mesh(new THREE.Cylin
 const architecture=new THREE.Group(); scene.add(architecture);
 box(scene,12,.15,12,0,-.1,0,mat('#394444'));
 for(let i=-6;i<=6;i+=.6) box(scene,.012,.005,12,i,.002,0,mat('#6a7267'));
-// The back wall has a glazed window and a framed doorway.
+// The back wall keeps the entry door; the window opening is on the right wall.
 const wall=mat('#354247');
 box(architecture,1.55,4,.18,-5.225,2,-6,wall);
 box(architecture,1.95,4,.18,-2.275,2,-6,wall);
 box(architecture,1.2,1.4,.18,-3.85,3.3,-6,wall);
 box(architecture,4.7,4,.18,3.65,2,-6,wall);
-box(architecture,2.6,.8,.18,0,.4,-6,mat('#354247'));
-box(architecture,2.6,.85,.18,0,3.575,-6,mat('#354247'));
+box(architecture,2.6,4,.18,0,2,-6,wall);
 box(architecture,.18,4,12,-6,2,0,mat('#303a3e'));
-box(architecture,.18,4,12,6,2,0,mat('#354247'));
+box(architecture,.18,4,10.6,6,2,-.7,wall);
+box(architecture,.18,.8,1.4,6,.4,5.3,wall);
+box(architecture,.18,.85,1.4,6,3.575,5.3,wall);
 for(let x=-5;x<=5;x+=2){if(Math.abs(x)<1.5||x===-3)continue;box(architecture,.5,2.5,.16,x,2,-5.85,dark);for(let j=0;j<5;j++)box(architecture,.035,2.4,.09,x-.18+j*.09,2,-5.72,wood);}
 const door=new THREE.Group();door.position.set(-3.85,0,-5.89);architecture.add(door);
 const doorWood=mat('#866a50'),panelWood=mat('#705841'),trim=mat('#c8bda4');
@@ -293,7 +294,7 @@ function frame(){requestAnimationFrame(frame);const dt=Math.min(clock.getDelta()
   renderer.render(scene,camera);
 }
 
-function saveLayout(){try{localStorage.setItem('sound-room-bedroom-v2',JSON.stringify(sources.map(s=>({type:s.type,x:s.x,z:s.z,rotation:s.rotation||0,volume:s.volume,muted:!!s.muted}))));}catch{}}
+function saveLayout(){try{localStorage.setItem('sound-room-bedroom-v3',JSON.stringify(sources.map(s=>({type:s.type,x:s.x,z:s.z,rotation:s.rotation||0,volume:s.volume,muted:!!s.muted}))));}catch{}}
 function updateCount(){$('#object-count').textContent=String(sources.length).padStart(2,'0');}
 function addObject(type,options={},persist=true){
   if(sources.length>=24){toast('Room full: remove an object before adding another.');return;}
@@ -322,10 +323,17 @@ function renderLibrary(){const query=$('#object-search').value.toLowerCase();con
 $('#object-search').oninput=renderLibrary;
 document.querySelectorAll('[data-category]').forEach(button=>button.onclick=()=>{category=button.dataset.category;document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',b===button));renderLibrary();});
 let layout=bedroom;try{
-  const current=JSON.parse(localStorage.getItem('sound-room-bedroom-v2'));
-  const previous=current??JSON.parse(localStorage.getItem('sound-room-bedroom-v1'));
+  const current=JSON.parse(localStorage.getItem('sound-room-bedroom-v3'));
+  const previous=current??JSON.parse(localStorage.getItem('sound-room-bedroom-v2'))??JSON.parse(localStorage.getItem('sound-room-bedroom-v1'));
   if(Array.isArray(previous)&&previous.length<=24){
-    layout=previous.filter(i=>i&&catalog.some(c=>c.type===i.type)&&Number.isFinite(i.x)&&Number.isFinite(i.z)).map(i=>({type:i.type,x:i.x,z:i.type==='bird'&&i.x===0&&i.z===-4.6?-5.15:i.z,rotation:Number.isFinite(i.rotation)?i.rotation:0,volume:Number.isFinite(i.volume)?THREE.MathUtils.clamp(i.volume,0,1):catalog.find(c=>c.type===i.type).volume||0,muted:!!i.muted}));
+    layout=previous.filter(i=>i&&catalog.some(c=>c.type===i.type)&&Number.isFinite(i.x)&&Number.isFinite(i.z)).map(i=>{
+      const starterBird=i.type==='bird'&&i.x===0&&[-5.15,-4.6].includes(i.z);
+      const starterStrings=i.type==='strings'&&i.x===-1.8&&i.z===2.4;
+      const savedVolume=Number.isFinite(i.volume)?i.volume:catalog.find(c=>c.type===i.type).volume||0;
+      const volume = !current && starterBird && savedVolume === .35 ? .7 : savedVolume;
+      const moveStarterBird=!current&&starterBird;
+      return {type:i.type,x:moveStarterBird?5.15:i.x,z:moveStarterBird?5.3:i.z,rotation:moveStarterBird?-Math.PI/2:Number.isFinite(i.rotation)?i.rotation:0,volume:THREE.MathUtils.clamp(volume,0,1),muted:!current&&starterStrings?true:!!i.muted};
+    });
     if(!current&&layout.length<24&&!layout.some(i=>i.type==='strings'))layout.push({type:'strings',x:-1.8,z:2.4});
   }
 }catch{}
