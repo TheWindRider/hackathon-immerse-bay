@@ -184,6 +184,7 @@ volumeControl.addEventListener('input', () => {
   volumeValue.value = `${volume}%`;
   volumeValue.textContent = `${volume}%`;
   satieAudio?.engine.setMasterVolume(volume / 100);
+  ambience.setMasterVolume(volume / 100);
 });
 
 async function loadSatieAudio(): Promise<SatieScene> {
