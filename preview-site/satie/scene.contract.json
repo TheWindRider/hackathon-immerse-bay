@@ -1,0 +1,92 @@
+{
+  "version": "satie.scene/v1",
+  "coordinates": {
+    "units": "metres",
+    "frame": "threejs",
+    "handedness": "right",
+    "up": "+Y",
+    "cameraForward": "-Z"
+  },
+  "listener": "first_person",
+  "scene": {
+    "engine": "three.js",
+    "unitsPerMeter": 1,
+    "listener": "first_person",
+    "objects": [
+      {
+        "id": "central_fountain",
+        "role": "Static fountain; sound host for steady trickling water",
+        "label": "Central fountain",
+        "position": [0, 0, 6],
+        "radiusM": 1,
+        "sizeM": [2, 0.9, 2],
+        "occludes": true,
+        "material": "carved stone and water",
+        "motion": "static"
+      },
+      {
+        "id": "left_lantern",
+        "role": "Silent visual prop",
+        "label": "Left lantern",
+        "position": [-2.598076211353316, 0, 1.5000000000000004],
+        "radiusM": 0.125,
+        "sizeM": [0.25, 1.2, 0.25],
+        "occludes": true,
+        "material": "painted metal and glass",
+        "motion": "static"
+      },
+      {
+        "id": "right_lantern",
+        "role": "Silent visual prop",
+        "label": "Right lantern",
+        "position": [2.598076211353316, 0, 1.5000000000000004],
+        "radiusM": 0.125,
+        "sizeM": [0.25, 1.2, 0.25],
+        "occludes": true,
+        "material": "painted metal and glass",
+        "motion": "static"
+      },
+      {
+        "id": "entrance_hedge",
+        "role": "Static foliage; sound host for light breeze rustle",
+        "label": "Entrance hedge",
+        "position": [-1.5499999999999985, 0, 1.6000000000000028],
+        "radiusM": 1.5,
+        "sizeM": [0.7, 0.8, 3],
+        "occludes": false,
+        "material": "leaves and woody twigs",
+        "motion": "static"
+      },
+      {
+        "id": "back_hedge",
+        "role": "Silent visual prop",
+        "label": "Back hedge",
+        "position": [0, 0, 11],
+        "radiusM": 4,
+        "sizeM": [8, 0.8, 0.7],
+        "occludes": false,
+        "material": "leaves and woody twigs",
+        "motion": "static"
+      },
+      {
+        "id": "outer_shrub",
+        "role": "Static foliage; host for evening bird calls",
+        "label": "Bird shrub",
+        "position": [3.742410434719668, 0, 17.606656813208502],
+        "radiusM": 0.75,
+        "sizeM": [1.5, 2.2, 1.5],
+        "occludes": false,
+        "material": "leaves and woody branches",
+        "motion": "static"
+      }
+    ],
+    "environment": {
+      "setting": "A tiny peaceful stone courtyard garden at twilight",
+      "time": "18:30, early autumn",
+      "weather": "Dry, light breeze",
+      "ground": "Weathered stone paving with a small soil patch near the entrance hedge",
+      "enclosure": "Open courtyard with a low stone boundary and hedges",
+      "notes": "A minimal static world with a first-person WebXR camera at the entrance. The player can look around but there are no gameplay events, state changes, or physical controls."
+    }
+  }
+}
