@@ -46,3 +46,5 @@ Use the on-screen volume slider to adjust the overall Satie output.
 npm run build
 npm run preview
 ```
+
+Outdoor mixer: open Outdoor mixer on desktop; in Quest press A / stick click to open the menu (choose SOUND in the integrated room). Ten independent channels cover fountain, birds, three foliage regions, stream, waves, breeze, pentatonic chimes and light meadow crickets. More sounds pages through VR controls; +/- changes volume, Mute silences a channel without losing its volume. Reset lively mix restores the curated bird-and-foliage-led balance. Settings persist on this browser. Supplemental sounds use local procedural Web Audio, not Attractor generation; original courtyard SATIE audio remains and follows matching mixer controls.

@@ -4,8 +4,9 @@ type Button=THREE.Mesh<THREE.PlaneGeometry,THREE.MeshBasicMaterial>;
 export class EdenControls{
   menu=new THREE.Group();buttons:Button[]=[];sources:Array<{object:THREE.Group;source:XRInputSource|null;held:boolean;previous:boolean[]}>=[];
   dock:Button;paused=false;snap=true;teleporting:THREE.Group|null=null;
+  panel='mixer';mixPage=0;
   ray=new THREE.Raycaster();worldHead=new THREE.PerspectiveCamera();savedPosition=new THREE.Vector3();savedRotation=new THREE.Quaternion();
-  constructor(public scene:THREE.Scene,public renderer:THREE.WebGLRenderer,public camera:THREE.PerspectiveCamera,public rig:THREE.Group,public eden:ReturnType<typeof import('./paradise-world.js').buildParadise>,public door:ReturnType<typeof import('./paradise-world.js').createDoor>){
+  constructor(public scene:THREE.Scene,public renderer:THREE.WebGLRenderer,public camera:THREE.PerspectiveCamera,public rig:THREE.Group,public eden:ReturnType<typeof import('./paradise-world.js').buildParadise>,public door:ReturnType<typeof import('./paradise-world.js').createDoor>,public ambience:InstanceType<typeof import('./paradise-world.js').ParadiseAmbience>){
     scene.add(this.menu);this.menu.visible=false;this.rebuild();
     this.dock=this.button('MENU / EDEN',0,0,.34,.09,()=>this.toggle(),false);scene.add(this.dock);this.dock.visible=false;this.dock.material.depthTest=false;this.dock.renderOrder=100;
     for(let i=0;i<2;i++){const object=renderer.xr.getController(i);rig.add(object);const beam=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3(0,0,-8)]),new THREE.LineBasicMaterial({color:'#e5fbba'}));object.add(beam);const data={object,source:null as XRInputSource|null,held:false,previous:[] as boolean[]};this.sources.push(data);
@@ -21,7 +22,15 @@ export class EdenControls{
   floorPoint(object:THREE.Object3D){this.setRay(object);const point=new THREE.Vector3();return this.ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0,1,0),0),point)&&this.ray.ray.origin.distanceTo(point)<30?point:null;}
   button(text:string,x:number,y:number,w:number,h:number,action:()=>void,attach=true){const canvas=document.createElement('canvas');canvas.width=Math.round(w*800);canvas.height=Math.round(h*800);const context=canvas.getContext('2d')!;context.fillStyle='#254c43';context.fillRect(0,0,canvas.width,canvas.height);context.fillStyle='#fbf7df';context.font=`${Math.min(34,canvas.height*.38)}px system-ui`;context.textAlign='center';context.textBaseline='middle';context.fillText(text,canvas.width/2,canvas.height/2);const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;const button=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:texture,side:THREE.DoubleSide}));button.position.set(x,y,.02);button.userData.action=action;if(attach){this.menu.add(button);this.buttons.push(button);}return button;}
   rebuild(){for(const object of this.buttons){object.geometry.dispose();object.material.map?.dispose();object.material.dispose();this.menu.remove(object);}this.buttons=[];
-    this.button('INNER EDEN - shape your paradise',0,.8,2.1,.13,()=>{});
+    if(this.panel==='mixer'){
+      this.button('INNER EDEN / OUTDOOR MIXER',0,.85,2.1,.13,()=>{});
+      this.button('Mixer',-.55,.64,1.05,.14,()=>{});this.button('Mood controls',.55,.64,1.05,.14,()=>{this.panel='mood';this.rebuild();});
+      const channels=this.ambience.channels(),pages=Math.ceil(channels.length/4);this.mixPage%=pages;
+      channels.slice(this.mixPage*4,this.mixPage*4+4).forEach((item,i)=>{const y=.42-i*.25;this.button(`${item.label} ${Math.round(item.level*100)}%`,-.4,y,1.25,.16,()=>{});this.button(item.muted?'Play':'Mute',.43,y,.36,.16,()=>{this.ambience.toggleChannel(item.id);this.rebuild();});this.button('−',.78,y,.25,.16,()=>{this.ambience.setChannel(item.id,item.level-.1);this.rebuild();});this.button('+',1.07,y,.25,.16,()=>{this.ambience.setChannel(item.id,item.level+.1);this.rebuild();});});
+      this.button('More sounds',-.55,-.64,1.05,.14,()=>{this.mixPage=(this.mixPage+1)%pages;this.rebuild();});this.button('Reset lively mix',.55,-.64,1.05,.14,()=>{this.ambience.resetMix();this.rebuild();});
+      this.button('Mute all',-.75,-.84,.68,.14,()=>{this.ambience.muteAll(true);this.rebuild();});this.button('Unmute all',0,-.84,.68,.14,()=>{this.ambience.muteAll(false);this.rebuild();});this.button('Close',.75,-.84,.68,.14,()=>{this.menu.visible=false;});return;
+    }
+    this.button('Open outdoor mixer',0,.8,2.1,.13,()=>{this.panel='mixer';this.rebuild();});
     Object.entries(moods).forEach(([name,values],i)=>this.button(name,(i-1)*.72,.57,.68,.15,()=>{this.eden.set(values);this.rebuild();}));
     (['energy','nature','dreaminess'] as const).forEach((key,i)=>{const y=.3-i*.25;this.button(`${key}: ${Math.round(this.eden.target[key]*100)}%`,0,y,1.2,.16,()=>{});this.button('−',-.87,y,.35,.16,()=>{this.eden.set({[key]:this.eden.target[key]-.1});this.rebuild();});this.button('+',.87,y,.35,.16,()=>{this.eden.set({[key]:this.eden.target[key]+.1});this.rebuild();});});
     this.button(this.paused?'Resume walking':'Pause here',-.55,-.48,1.05,.15,()=>{this.paused=!this.paused;this.rebuild();});this.button('Save favorite',.55,-.48,1.05,.15,()=>{localStorage.setItem('inner-eden-favorite',JSON.stringify({name:'My paradise',settings:this.eden.target}));});

@@ -6,6 +6,7 @@ import type { RuntimeContract } from 'satie-runtime/contracts';
 import './style.css';
 import {buildParadise,ParadiseAmbience,createDoor,personalize,moods,islandBounds,islandHeight} from './paradise-world.js';
 import {EdenControls} from './eden-controls';
+import {mountOutdoorMixer} from './outdoor-mixer.js';
 import {MovementInput,isEditing} from './movement-input.js';
 
 const canvas = getElement<HTMLCanvasElement>('world');
@@ -220,6 +221,7 @@ async function loadSatieAudio(): Promise<SatieScene> {
 const audioReady = loadSatieAudio()
   .then((audio) => {
     satieAudio = audio;
+    syncAuthoredMix();
     audio.engine.setMasterVolume(volumeControl.valueAsNumber / 100);
     volumeControl.disabled = false;
     credit = badge({
@@ -272,6 +274,7 @@ function enterWorld(): void {
     void satieAudio.start().then(
       () => {
         welcome.hidden = true;
+        syncAuthoredMix();
         credit?.hide();
       },
       (error: unknown) => {
@@ -299,12 +302,16 @@ document.body.append(vrButton);
 
 const eden=buildParadise(scene,worldRoot);
 const ambience=new ParadiseAmbience();ambience.active=true;
+function syncAuthoredMix(){if(!satieAudio)return;const channels=new Map(ambience.channels().map(item=>[item.id,item]));satieAudio.engine.scriptStatements.forEach((voice,index)=>{const source=String((voice as {sourceId?:string}).sourceId||'');const id=source.includes('fountain_flow')?'fountain':source.includes('hedge_breeze')?'entrance-leaves':source.includes('evening_birds')?'birds':null;const item=id?channels.get(id):null;if(item)satieAudio!.engine.setStatementVolume(index,item.muted?0:item.level);});}
+ambience.subscribe(syncAuthoredMix);
+mountOutdoorMixer(document.getElementById('courtyard-mixer')!,ambience);
+document.getElementById('open-outdoor-mixer')!.onclick=()=>{const panel=document.getElementById('courtyard-mixer')!;panel.hidden=!panel.hidden;movementInput.clear();};
 let traveling=false;
 const returnDoor=createDoor(worldRoot,{x:0,z:-2,title:'Return to bedroom - trigger / click',onOpen:()=>{
   if(traveling)return;traveling=true;
   setTimeout(()=>{void (async()=>{const session=renderer.xr.getSession();if(session)await session.end();window.location.assign('https://zhenga1.github.io/sound-room-webxr/?from=eden');})().catch(error=>{traveling=false;console.error(error);});},650);
 }});
-const edenControls=new EdenControls(scene,renderer,camera,rig,eden,returnDoor);
+const edenControls=new EdenControls(scene,renderer,camera,rig,eden,returnDoor,ambience);
 const pressedKeys=new Set<string>();
 const movementInput=new MovementInput(pressedKeys);
 const canWalk=()=>welcome.hidden&&!renderer.xr.isPresenting&&!edenControls.paused&&document.visibilityState!=='hidden'&&document.hasFocus()&&!isEditing(document.activeElement);
