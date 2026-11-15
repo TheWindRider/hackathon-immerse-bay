@@ -1,0 +1,1 @@
+{"name":"sound-room","private":true,"type":"module","scripts":{"start":"node serve.mjs","check":"node --check dist/app.js && node --check dist/audio.js && node --check dist/objects.js","test":"node --test audio.test.mjs"}}

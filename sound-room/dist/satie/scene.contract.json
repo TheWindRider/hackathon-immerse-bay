@@ -1,0 +1,609 @@
+{
+  "version": "satie.scene/v1",
+  "coordinates": {
+    "units": "metres",
+    "frame": "threejs",
+    "handedness": "right",
+    "up": "+Y",
+    "cameraForward": "-Z"
+  },
+  "listener": "first_person",
+  "scene": {
+    "worldModel": {
+      "version": "satie.world-model/v1",
+      "id": "sound_room",
+      "revision": 1,
+      "frame": "threejs-metres-y-up",
+      "concepts": [],
+      "entities": [],
+      "relations": []
+    },
+    "engine": "threejs",
+    "unitsPerMeter": 1,
+    "listener": "first_person",
+    "player": "camera",
+    "behaviorContract": {
+      "version": "satie.behaviors/v1",
+      "listener": {
+        "host": "camera",
+        "offsetM": [
+          0,
+          0,
+          0
+        ],
+        "maxErrorM": 0.25,
+        "alternates": []
+      },
+      "inventory": [
+        {
+          "host": "books",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "books_sound"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            }
+          ]
+        },
+        {
+          "host": "fan",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "fan_sound"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            }
+          ]
+        },
+        {
+          "host": "clock",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "clock_sound"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            }
+          ]
+        },
+        {
+          "host": "bird",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "bird_sound"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            }
+          ]
+        },
+        {
+          "host": "tv",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "tv_sound"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            }
+          ]
+        },
+        {
+          "host": "record",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "record_sound"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            }
+          ]
+        },
+        {
+          "host": "rain",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "rain_sound"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            }
+          ]
+        },
+        {
+          "host": "piano",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Free Satie plan cannot provide musical performance."
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted object."
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed."
+            }
+          ]
+        },
+        {
+          "host": "drums",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js catalog",
+              "dist/app.js addObject/move/removeObject"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Free Satie plan cannot provide musical performance."
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted object."
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed."
+            }
+          ]
+        },
+        {
+          "host": "camera",
+          "states": [
+            {
+              "name": "moving",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "The current app has no footstep or body sound."
+            },
+            {
+              "name": "idle",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Listener is silent at rest."
+            }
+          ]
+        }
+      ],
+      "behaviors": [
+        {
+          "id": "books_sound",
+          "host": "books",
+          "sourceIds": [
+            "books"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-texture",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        },
+        {
+          "id": "fan_sound",
+          "host": "fan",
+          "sourceIds": [
+            "fan"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-mechanism",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        },
+        {
+          "id": "clock_sound",
+          "host": "clock",
+          "sourceIds": [
+            "clock"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-mechanism",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        },
+        {
+          "id": "bird_sound",
+          "host": "bird",
+          "sourceIds": [
+            "bird"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-texture",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        },
+        {
+          "id": "tv_sound",
+          "host": "tv",
+          "sourceIds": [
+            "tv"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-mechanism",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        },
+        {
+          "id": "record_sound",
+          "host": "record",
+          "sourceIds": [
+            "record"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-texture",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        },
+        {
+          "id": "rain_sound",
+          "host": "rain",
+          "sourceIds": [
+            "rain"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-texture",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        }
+      ]
+    },
+    "objects": [
+      {
+        "id": "camera",
+        "role": "player",
+        "label": "You",
+        "motion": "moves",
+        "notes": "First-person camera and listener at 1.7 m."
+      },
+      {
+        "id": "books",
+        "label": "Books",
+        "material": "paper",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "fan",
+        "label": "Desk fan",
+        "material": "metal",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "clock",
+        "label": "Alarm clock",
+        "material": "metal",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "bird",
+        "label": "Bird at the window",
+        "material": "glass",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "tv",
+        "label": "Television",
+        "material": "plastic",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "record",
+        "label": "Record player",
+        "material": "wood and vinyl",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "rain",
+        "label": "Rain window",
+        "material": "glass",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "piano",
+        "label": "Piano",
+        "material": "wood",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "drums",
+        "label": "Drummer",
+        "material": "metal and wood",
+        "motion": "moves",
+        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      }
+    ],
+    "rooms": [
+      {
+        "id": "studio",
+        "sizeM": [
+          12,
+          4,
+          12
+        ],
+        "position": [
+          0,
+          2,
+          0
+        ],
+        "floor": "wood",
+        "ceiling": "plaster",
+        "walls": "plaster",
+        "rt60": 0.35
+      },
+      {
+        "id": "cathedral",
+        "sizeM": [
+          12,
+          10,
+          12
+        ],
+        "position": [
+          0,
+          5,
+          0
+        ],
+        "floor": "stone",
+        "ceiling": "vaulted stone",
+        "walls": "stone",
+        "rt60": 5.5
+      }
+    ],
+    "environment": {
+      "setting": "Interactive bedroom sandbox",
+      "time": "evening",
+      "weather": "dry unless rain window added",
+      "ground": "wood",
+      "enclosure": "Enclosed"
+    },
+    "states": [
+      {
+        "name": "studio"
+      },
+      {
+        "name": "cathedral"
+      }
+    ]
+  }
+}

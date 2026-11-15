@@ -1,0 +1,13 @@
+{
+  "version": "sound-room-hosts/v1",
+  "note": "Current SATIE composition has one host per audible catalog type. Duplicate independent copies require additional SATIE voices and bindings.",
+  "hosts": {
+    "books": "books",
+    "fan": "fan",
+    "clock": "clock",
+    "bird": "bird",
+    "tv": "tv",
+    "record": "record",
+    "rain": "rain"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "Audio/electric-heater-fan-running": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/cee625bb-cf99-4848-8f33-5ea86a94f9e0/game-takes/b3210d79-a542-4b43-91ef-d99e610d1a18.mp3",
+    "sampleId": "b3210d79-a542-4b43-91ef-d99e610d1a18",
+    "reused": true,
+    "prompt": "electric-heater-fan-running",
+    "source": "library",
+    "name": "electric-heater-fan-running",
+    "license": "Generated (ElevenLabs, via Satie)",
+    "licence": "Generated (ElevenLabs, via Satie)",
+    "qa": {
+      "heard": "A continuous, steady low hum of an electric fan running with consistent airflow and mechanical noise.",
+      "verdict": "pass"
+    },
+    "sha256": "ea5517c1b739a026f680d39b6ab9899fc8a50d17686134b5746e69bd97dd6021"
+  },
+  "Audio/steady-rain-on-pane-window": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/cee625bb-cf99-4848-8f33-5ea86a94f9e0/game-takes/d8feb4e9-8ff2-4996-a719-b8ef321a1fc7.mp3",
+    "sampleId": "d8feb4e9-8ff2-4996-a719-b8ef321a1fc7",
+    "reused": true,
+    "prompt": "steady-rain-on-pane-window",
+    "source": "library",
+    "name": "steady-rain-on-pane-window",
+    "license": "Generated (ElevenLabs, via Satie)",
+    "licence": "Generated (ElevenLabs, via Satie)",
+    "qa": {
+      "heard": "A steady, close-up texture of rain pattering against a window pane, providing a consistent ambient sound.",
+      "verdict": "pass"
+    },
+    "sha256": "1236c102a2a0f7abf47512d0b9980b1cf6bc2f92d9d07136a428550f479dc9fb"
+  },
+  "Audio/generation/one_small_songbird_giving_shor": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/cee625bb-cf99-4848-8f33-5ea86a94f9e0/game-takes/80dea7e0-66d6-4b49-b16c-c73c1e67ed1a.mp3",
+    "sampleId": "80dea7e0-66d6-4b49-b16c-c73c1e67ed1a",
+    "reused": true,
+    "prompt": "one small songbird giving short chirping phrases with long silent pauses between phrases, no other birds or background sounds, dry recording, seamless ambience loop, consistent texture",
+    "source": "library",
+    "name": "small-woodland-songbirds-2",
+    "license": "Generated (ElevenLabs, via Satie)",
+    "similarity": 0.823,
+    "licence": "Generated (ElevenLabs, via Satie)",
+    "sha256": "5a16e42e39596bb690c4157c8942ba81671ff4025ca0bb88f352564d8c00409c"
+  },
+  "Audio/generation/small_mechanical_alarm_clock_t": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/cee625bb-cf99-4848-8f33-5ea86a94f9e0/game-takes/499c65ff-8fbb-4e0f-a3fa-7c68e1d648a2.mp3",
+    "sampleId": "499c65ff-8fbb-4e0f-a3fa-7c68e1d648a2",
+    "reused": true,
+    "prompt": "small mechanical alarm clock ticking steadily, delicate alternating escapement clicks, dry recording, seamless ambience loop, consistent texture",
+    "source": "library",
+    "name": "small-plastic-wall-clock",
+    "license": "Generated (ElevenLabs, via Satie)",
+    "similarity": 0.843,
+    "licence": "Generated (ElevenLabs, via Satie)",
+    "sha256": "4d9409515010fc8df5beb2c6dd7f5a05949bd6cbebe07704a847c803709f25fe"
+  },
+  "Audio/generation/television_loudspeaker_reprodu": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/cee625bb-cf99-4848-8f33-5ea86a94f9e0/game-takes/1c1474ef-ad21-41b7-a7d3-343a05fcf61b.mp3",
+    "sampleId": "1c1474ef-ad21-41b7-a7d3-343a05fcf61b",
+    "reused": false,
+    "prompt": "television loudspeaker reproducing low nonmusical electronic broadcast tones and gently fluctuating filtered static, no speech or music, dry recording, seamless ambience loop, consistent texture",
+    "source": "generated",
+    "name": "television-loudspeaker",
+    "licence": "generated:elevenlabs",
+    "generator": {
+      "provider": "elevenlabs",
+      "model": "eleven_text_to_sound_v2"
+    },
+    "qa": {
+      "heard": "filtered white noise and electronic broadcast tones matching the description",
+      "verdict": "pass"
+    },
+    "sha256": "c99788ba22594d698cf6c820ed932870642352d9567e201b4182bc36398bcd1a"
+  },
+  "Audio/generation/paper_book_pages_turned_indivi": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/cee625bb-cf99-4848-8f33-5ea86a94f9e0/game-takes/d14e1d84-bd5f-417d-9d8a-d055b249df81.mp3",
+    "sampleId": "d14e1d84-bd5f-417d-9d8a-d055b249df81",
+    "reused": false,
+    "prompt": "paper book pages turned individually, delicate paper flexing and sliding, irregular pauses of several seconds between page turns, dry recording, seamless ambience loop, consistent texture",
+    "source": "generated",
+    "name": "paper-book-pages-turned",
+    "licence": "generated:elevenlabs",
+    "generator": {
+      "provider": "elevenlabs",
+      "model": "eleven_text_to_sound_v2"
+    },
+    "qa": {
+      "heard": "paper pages turning individually with pauses in between",
+      "verdict": "pass"
+    },
+    "sha256": "3888e42b2566cabfc919b9cc0a0537fcb4acd2bbdfdefd360a905a3241ea56a5"
+  },
+  "Audio/generation/vinyl_record_rotating_in_an_un": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/cee625bb-cf99-4848-8f33-5ea86a94f9e0/game-takes/8f33e7e3-757b-4265-adc7-4a7229eac55b.mp3",
+    "sampleId": "8f33e7e3-757b-4265-adc7-4a7229eac55b",
+    "reused": false,
+    "prompt": "vinyl record rotating in an unmodulated groove, continuous surface friction with occasional tiny groove crackles, no music or speech, dry recording, seamless ambience loop, consistent texture",
+    "source": "generated",
+    "name": "vinyl-record-rotating",
+    "licence": "generated:elevenlabs",
+    "generator": {
+      "provider": "elevenlabs",
+      "model": "eleven_text_to_sound_v2"
+    },
+    "qa": {
+      "heard": "vinyl needle noise and groove surface friction with light crackle",
+      "verdict": "pass"
+    },
+    "sha256": "d1fe78acd9ab940be8030d0928ff1d57bb9647d1e4cf37d0f6eda5b1192865b0"
+  }
+}

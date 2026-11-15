@@ -1,0 +1,196 @@
+# @satie-world {"version":"satie.world-document/v1","worldModel":{"concepts":[],"entities":[],"frame":"threejs-metres-y-up","id":"sound_room","relations":[],"revision":1,"version":"satie.world-model/v1"}}
+# the level's rooms, from the developer's geometry
+room studio
+  size 12 4 12
+  place 0 2 0
+  floor wood
+  ceiling plaster
+  walls plaster
+  rt60 0.35
+
+room cathedral
+  size 12 10 12
+  place 0 5 0
+  floor stone
+  ceiling vaulted stone
+  walls stone
+  rt60 5.5
+
+gen books_sound
+    prompt paper book pages turned individually, delicate paper flexing and sliding, irregular pauses of several seconds between page turns, dry recording, seamless ambience loop, consistent texture
+    duration 30
+    loopable
+
+gen clock_sound
+    prompt small mechanical alarm clock ticking steadily, delicate alternating escapement clicks, dry recording, seamless ambience loop, consistent texture
+    duration 24
+    loopable
+
+gen bird_sound
+    prompt one small songbird giving short chirping phrases with long silent pauses between phrases, no other birds or background sounds, dry recording, seamless ambience loop, consistent texture
+    duration 30
+    loopable
+
+gen tv_sound
+    prompt television loudspeaker reproducing low nonmusical electronic broadcast tones and gently fluctuating filtered static, no speech or music, dry recording, seamless ambience loop, consistent texture
+    duration 30
+    loopable
+
+gen record_sound
+    prompt vinyl record rotating in an unmodulated groove, continuous surface friction with occasional tiny groove crackles, no music or speech, dry recording, seamless ambience loop, consistent texture
+    duration 30
+    loopable
+
+loop books_sound
+    program books_performance
+    source_id books
+    zone studio strict
+    at books
+    spl 44
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop books_sound
+    program books_performance
+    source_id books_cathedral
+    zone cathedral strict
+    at books
+    spl 44
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+loop electric-heater-fan-running
+    program fan_performance
+    source_id fan
+    radius 0.18
+    zone studio strict
+    at fan
+    spl 45
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop electric-heater-fan-running
+    program fan_performance
+    source_id fan_cathedral
+    radius 0.18
+    zone cathedral strict
+    at fan
+    spl 45
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+loop clock_sound
+    program clock_performance
+    source_id clock
+    zone studio strict
+    at clock
+    spl 38
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop clock_sound
+    program clock_performance
+    source_id clock_cathedral
+    zone cathedral strict
+    at clock
+    spl 38
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+loop bird_sound
+    program bird_performance
+    source_id bird
+    zone studio strict
+    at bird
+    spl 58
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop bird_sound
+    program bird_performance
+    source_id bird_cathedral
+    zone cathedral strict
+    at bird
+    spl 58
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+loop tv_sound
+    program tv_performance
+    source_id tv
+    radius 0.2
+    zone studio strict
+    at tv
+    spl 46
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop tv_sound
+    program tv_performance
+    source_id tv_cathedral
+    radius 0.2
+    zone cathedral strict
+    at tv
+    spl 46
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+# Record-player coverage is surface texture only, not musical playback.
+loop record_sound
+    program record_performance
+    source_id record
+    zone studio strict
+    at record
+    spl 38
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop record_sound
+    program record_performance
+    source_id record_cathedral
+    zone cathedral strict
+    at record
+    spl 38
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+loop steady-rain-on-pane-window
+    program rain_performance
+    source_id rain
+    radius 0.8
+    zone studio strict
+    at rain
+    spl 49
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop steady-rain-on-pane-window
+    program rain_performance
+    source_id rain_cathedral
+    radius 0.8
+    zone cathedral strict
+    at rain
+    spl 49
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+# Generated assets remain pending until successfully loaded.
+
+# Piano and drummer are explicitly silent on the Free plan; no audio voices are assigned.
+# Camera movement has no footsteps or other body sounds.
+# Quiet furniture stays silent.
+# No events or signals are fired by this scene; room switching uses host-selected zones.

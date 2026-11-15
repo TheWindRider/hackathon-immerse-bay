@@ -1,0 +1,35 @@
+# Unity-generated directories
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/MemoryCaptures/
+/Recordings/
+
+# IDE-generated files
+.vs/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.unityproj
+*.opendb
+*.VC.db
+
+# Local dependencies, credentials, and publication artifacts
+**/node_modules/
+**/.env
+**/.env.*
+!**/.env.example
+/sound-room/.openai/
+/sound-room-deploy.tar.gz
+/sound-room-preview.jpg
+.DS_Store
+Thumbs.db
