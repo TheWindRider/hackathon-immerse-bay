@@ -123,6 +123,47 @@ loop bird_sound
     in cathedral
     visual sphere
 
+# Visiting birds use the same licensed take on independent moving hosts.
+loop bird_sound
+    program bird_performance_2
+    source_id bird_2
+    zone studio strict
+    at bird_2
+    spl 56
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop bird_sound
+    program bird_performance_2
+    source_id bird_2_cathedral
+    zone cathedral strict
+    at bird_2
+    spl 56
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
+loop bird_sound
+    program bird_performance_3
+    source_id bird_3
+    zone studio strict
+    at bird_3
+    spl 54
+    distance_model free_field_v1
+    in studio
+    visual sphere
+
+loop bird_sound
+    program bird_performance_3
+    source_id bird_3_cathedral
+    zone cathedral strict
+    at bird_3
+    spl 54
+    distance_model free_field_v1
+    in cathedral
+    visual sphere
+
 loop tv_sound
     program tv_performance
     source_id tv

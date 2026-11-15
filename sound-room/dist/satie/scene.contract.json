@@ -337,6 +337,84 @@
               "silentReason": "Listener is silent at rest."
             }
           ]
+        },
+        {
+          "host": "bird_2",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js flying bird group",
+              "dist/app.js frame",
+              "dist/satie-audio.js setBirdActive"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "bird_sound_2"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            },
+            {
+              "name": "away",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "This companion is outside the scene."
+            }
+          ]
+        },
+        {
+          "host": "bird_3",
+          "discovery": {
+            "kind": "host-code",
+            "references": [
+              "dist/objects.js flying bird group",
+              "dist/app.js frame",
+              "dist/satie-audio.js setBirdActive"
+            ],
+            "unresolved": []
+          },
+          "states": [
+            {
+              "name": "playing",
+              "group": "state",
+              "behaviors": [
+                "bird_sound_3"
+              ]
+            },
+            {
+              "name": "muted",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "User muted this instance"
+            },
+            {
+              "name": "removed",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "Instance removed"
+            },
+            {
+              "name": "away",
+              "group": "state",
+              "behaviors": [],
+              "silentReason": "This companion is outside the scene."
+            }
+          ]
         }
       ],
       "behaviors": [
@@ -479,6 +557,46 @@
           "minEvents": 2,
           "minDistinctTakes": 1,
           "stateCases": []
+        },
+        {
+          "id": "bird_sound_2",
+          "host": "bird_2",
+          "sourceIds": [
+            "bird_2"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-texture",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
+        },
+        {
+          "id": "bird_sound_3",
+          "host": "bird_3",
+          "sourceIds": [
+            "bird_3"
+          ],
+          "kind": "continuous",
+          "authority": "game-state",
+          "signals": [],
+          "sourceRole": "stationary-texture",
+          "spatial": {
+            "kind": "point",
+            "nearM": 1,
+            "farM": 8,
+            "minDropDb": 6
+          },
+          "minEvents": 2,
+          "minDistinctTakes": 1,
+          "stateCases": []
         }
       ]
     },
@@ -515,8 +633,8 @@
         "id": "bird",
         "label": "Bird at the window",
         "material": "glass",
-        "motion": "moves",
-        "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+        "motion": "flies",
+        "notes": "One bird always flies outside the window; two companions visit at staggered intervals. Audio follows their visible positions."
       },
       {
         "id": "tv",
@@ -552,6 +670,20 @@
         "material": "metal and wood",
         "motion": "moves",
         "notes": "User can add multiple independent copies, drag, mute, change volume and remove."
+      },
+      {
+        "id": "bird_2",
+        "label": "Songbird",
+        "material": "feathers",
+        "motion": "flies",
+        "notes": "Flies outside window and intermittently joins primary bird."
+      },
+      {
+        "id": "bird_3",
+        "label": "Songbird",
+        "material": "feathers",
+        "motion": "flies",
+        "notes": "Flies outside window and intermittently joins primary bird."
       }
     ],
     "rooms": [
@@ -605,5 +737,7 @@
         "name": "cathedral"
       }
     ]
-  }
+  },
+  "revision": "e8ff847624014f1f18d5f707588e8459e25253382d1bb1e0e428784b9cbc83781",
+  "scriptHash": "c43019cfc959ca23c54927bfeae26f7daf03f3331382300eff40e7a540950d60"
 }

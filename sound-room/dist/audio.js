@@ -53,7 +53,8 @@ export class SoundEngine {
     if(this.playing) { await this.ctx.suspend(); this.playing=false; }
     else { await this.ctx.resume(); this.playing=true; }
   }
-  move(s) { if(s.audio) { const p=s.audio.panner; p.positionX.value=s.x; p.positionY.value=1; p.positionZ.value=s.z; } }
+  move(s) { this.moveTo(s,s.x,s.z); }
+  moveTo(s,x,z) { if(s.audio) { const p=s.audio.panner; p.positionX.value=x; p.positionY.value=1; p.positionZ.value=z; } }
   mute(s) { if(s.audio) s.audio.gain.gain.setTargetAtTime(s.muted?0:s.volume,this.ctx.currentTime,.025); }
   setPreset(name) {
     this.preset=name; if(!this.ctx||!this.rooms) return;

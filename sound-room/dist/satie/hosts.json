@@ -1,6 +1,6 @@
 {
   "version": "sound-room-hosts/v1",
-  "note": "Current SATIE composition has one host per audible catalog type. Duplicate independent copies require additional SATIE voices and bindings.",
+  "note": "Three independently bound flying bird hosts share one existing SATIE take. Visiting hosts bind only while visible.",
   "hosts": {
     "books": "books",
     "fan": "fan",
@@ -8,6 +8,8 @@
     "bird": "bird",
     "tv": "tv",
     "record": "record",
-    "rain": "rain"
+    "rain": "rain",
+    "bird_2": "bird_2",
+    "bird_3": "bird_3"
   }
 }
