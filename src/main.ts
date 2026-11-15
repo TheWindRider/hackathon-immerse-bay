@@ -1,3 +1,4 @@
+import {OutdoorObjects} from './outdoor-objects.js';
 import * as THREE from 'three';
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { badge, type SatieBadge } from 'satie-runtime/badge';
@@ -304,14 +305,15 @@ const eden=buildParadise(scene,worldRoot);
 const ambience=new ParadiseAmbience();ambience.active=true;
 function syncAuthoredMix(){if(!satieAudio)return;const channels=new Map(ambience.channels().map(item=>[item.id,item]));satieAudio.engine.scriptStatements.forEach((voice,index)=>{const source=String((voice as {sourceId?:string}).sourceId||'');const id=source.includes('fountain_flow')?'fountain':source.includes('hedge_breeze')?'entrance-leaves':source.includes('evening_birds')?'birds':null;const item=id?channels.get(id):null;if(item)satieAudio!.engine.setStatementVolume(index,item.muted?0:item.level);});}
 ambience.subscribe(syncAuthoredMix);
-mountOutdoorMixer(document.getElementById('courtyard-mixer')!,ambience);
+const outdoorObjects=new OutdoorObjects(worldRoot,ambience,()=>renderer.xr.isPresenting?edenControls.head():camera);
+mountOutdoorMixer(document.getElementById('courtyard-mixer')!,ambience,outdoorObjects);
 document.getElementById('open-outdoor-mixer')!.onclick=()=>{const panel=document.getElementById('courtyard-mixer')!;panel.hidden=!panel.hidden;movementInput.clear();};
 let traveling=false;
 const returnDoor=createDoor(worldRoot,{x:0,z:-2,title:'Return to bedroom - trigger / click',onOpen:()=>{
   if(traveling)return;traveling=true;
   setTimeout(()=>{void (async()=>{const session=renderer.xr.getSession();if(session)await session.end();window.location.assign('https://zhenga1.github.io/sound-room-webxr/?from=eden');})().catch(error=>{traveling=false;console.error(error);});},650);
 }});
-const edenControls=new EdenControls(scene,renderer,camera,rig,eden,returnDoor,ambience);
+const edenControls=new EdenControls(scene,renderer,camera,rig,eden,returnDoor,ambience,outdoorObjects);
 const pressedKeys=new Set<string>();
 const movementInput=new MovementInput(pressedKeys);
 const canWalk=()=>welcome.hidden&&!renderer.xr.isPresenting&&!edenControls.paused&&document.visibilityState!=='hidden'&&document.hasFocus()&&!isEditing(document.activeElement);
