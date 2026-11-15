@@ -8,7 +8,7 @@ export const catalog = [
   {type:'plant',name:'Houseplant',desc:'A little green · quiet',category:'Furniture',color:'#9ec998',radius:.6,height:1.6},
   {type:'fan',name:'Desk fan',desc:'A steady, gentle whirr',category:'Sounds',sound:'fan',volume:.22,color:'#9bcbd3',radius:.7,height:1.9},
   {type:'clock',name:'Alarm clock',desc:'A soft tick, not an alarm',category:'Sounds',sound:'clock',volume:.28,color:'#f2bf81',radius:.65,height:1.5},
-  {type:'bird',name:'Birds at the window',desc:'One to three birds fly closer and farther',category:'Sounds',sound:'bird',volume:.35,color:'#efd887',radius:.8,height:2.5},
+  {type:'bird',name:'Birds at the window',desc:'One to three birds fly closer and farther',category:'Sounds',sound:'bird',volume:.7,color:'#efd887',radius:.8,height:2.5},
   {type:'tv',name:'Television',desc:'A quiet electronic hum',category:'Sounds',sound:'tv',volume:.2,color:'#a6b9e5',radius:1,height:1.9},
   {type:'record',name:'Record player',desc:'Soft vinyl groove & crackle',category:'Sounds',sound:'record',volume:.4,color:'#e6b9ad',radius:.8,height:1.6},
   {type:'rain',name:'Rain window',desc:'Rain against the glass',category:'Sounds',sound:'rain',volume:.25,color:'#8dc8e8',radius:1,height:2.55},
@@ -19,7 +19,7 @@ export const catalog = [
 export const bedroom = [
   {type:'bed',x:2.7,z:-1.2},{type:'lamp',x:4.3,z:-2.6},{type:'books',x:.1,z:-.7},
   {type:'shelf',x:-4.2,z:-3.9},{type:'rug',x:0,z:1.5},{type:'fan',x:-2.6,z:-.7},
-  {type:'clock',x:4.3,z:.1},{type:'bird',x:0,z:-5.15},{type:'strings',x:-1.8,z:2.4}
+  {type:'clock',x:4.3,z:.1},{type:'bird',x:5.15,z:5.3,rotation:-Math.PI/2},{type:'strings',x:-1.8,z:2.4,muted:true}
 ];
 export function buildObject(s, group, kit) {
   const {box,cylinder,mat,wood,dark,ivory,metal}=kit;
@@ -58,12 +58,12 @@ export function buildObject(s, group, kit) {
     box(group,.018,.16,.018,0,1.12,.09,dark);const hand=box(group,.14,.018,.018,.06,1.06,.09,dark);hand.rotation.z=-.4;
     for(const x of [-.19,.19])sphere(.09,x,1.31,0,tint);
   }else if(s.type==='bird'){
-    // Open pane and frame. The wall opening is behind this object in the starter room.
-    for(const x of [-1.25,1.25])box(group,.1,2.45,.1,x,2,-.68,wood);
-    for(const y of [.78,3.22])box(group,2.6,.1,.1,0,y,-.68,wood);
-    box(group,2.55,.045,.4,0,.75,-.49,ivory);
+    // The starter placement rotates this pane and frame to face the side-wall opening.
+    for(const x of [-.65,.65])box(group,.1,2.45,.1,x,2,-.68,wood);
+    for(const y of [.78,3.22])box(group,1.4,.1,.1,0,y,-.68,wood);
+    box(group,1.35,.045,.4,0,.75,-.49,ivory);
     box(group,.045,2.4,.06,0,2,-.62,ivory);
-    box(group,2.5,.04,.06,0,2,-.62,ivory);
+    box(group,1.35,.04,.06,0,2,-.62,ivory);
     s.birds=[];
     for(let i=0;i<3;i++){
       const flyer=new THREE.Group();group.add(flyer);

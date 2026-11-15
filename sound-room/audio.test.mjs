@@ -9,6 +9,14 @@ import {createHash} from 'node:crypto';
 class Node {constructor(){this.gain={value:0,setTargetAtTime(v){this.value=v;}};this.positionX={};this.positionY={};this.positionZ={};}connect(){return this;}disconnect(){this.disconnected=true;}start(...args){this.started=args;}stop(){this.stopped=true;}}
 const ctx={currentTime:2,createBufferSource:()=>new Node(),createGain:()=>new Node(),createPanner:()=>new Node()};
 test('every catalog sound has a bundled clip and starter furniture is valid',()=>{for(const item of catalog)if(item.sound)assert.ok(existsSync(`dist/audio/${item.sound}.mp3`),item.sound);for(const item of bedroom)assert.ok(catalog.some(c=>c.type===item.type));});
+test('starter birds are prominent and ambient strings start muted',()=>{
+ const bird=catalog.find(item=>item.type==='bird');
+ const starterBird=bedroom.find(item=>item.type==='bird');
+ const strings=bedroom.find(item=>item.type==='strings');
+ assert.equal(bird.volume,.7);
+ assert.deepEqual([starterBird.x,starterBird.z,starterBird.rotation],[5.15,5.3,-Math.PI/2]);
+ assert.equal(strings.muted,true);
+});
 test('bundled recordings match the SATIE samples manifest',()=>{
  const samples=JSON.parse(readFileSync('dist/satie/samples.json','utf8'));
  const clips={books:'Audio/generation/paper_book_pages_turned_indivi',fan:'Audio/electric-heater-fan-running',clock:'Audio/generation/small_mechanical_alarm_clock_t',bird:'Audio/generation/one_small_songbird_giving_shor',tv:'Audio/generation/television_loudspeaker_reprodu',record:'Audio/generation/vinyl_record_rotating_in_an_un',rain:'Audio/steady-rain-on-pane-window'};
