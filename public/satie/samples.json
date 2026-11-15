@@ -1,0 +1,62 @@
+{
+  "Audio/generation/evening_birds_morning_calls_1ec91db4_ea59ba8f": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/03fc88eb-3543-4c6a-be00-0ca7bc7bf667/game-takes/f73a0a21-4043-492b-af30-39341d90eed1.mp3",
+    "sampleId": "f73a0a21-4043-492b-af30-39341d90eed1",
+    "reused": true,
+    "prompt": "A songbird giving individual short contact calls with long pauses, close, dry, no other sources.",
+    "source": "library",
+    "name": "small-songbird-singing-short-3",
+    "license": "Generated (ElevenLabs, via Satie)",
+    "similarity": 0.761,
+    "licence": "Generated (ElevenLabs, via Satie)",
+    "sha256": "651f4de5d1dcf6bc8a2369932de9c4eb2a637b828578e95bfe95b2cd3ef312e7"
+  },
+  "Audio/generation/fountain_flow_25d06a2a_41afc22d": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/03fc88eb-3543-4c6a-be00-0ca7bc7bf667/game-takes/f5dfe5ca-b73c-4a94-a223-f124978a8c89.mp3",
+    "sampleId": "f5dfe5ca-b73c-4a94-a223-f124978a8c89",
+    "reused": true,
+    "prompt": "A small stone fountain trickling steadily into its basin, gentle flowing water with small rounded splashes, close, dry, no other sources.",
+    "source": "library",
+    "name": "modest-courtyard-fountain",
+    "license": "Generated (ElevenLabs, via Satie)",
+    "similarity": 0.79,
+    "licence": "Generated (ElevenLabs, via Satie)",
+    "sha256": "0b5b3cf35dbaf12f5aa6a6d1e1df7196f6ac4e7fc8adae512ff69093babe1f50"
+  },
+  "Audio/generation/hedge_breeze_4d5e5a14_5d06a739": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/03fc88eb-3543-4c6a-be00-0ca7bc7bf667/game-takes/9a3eed88-b47d-43b3-8fdf-af2b07839211.mp3",
+    "sampleId": "9a3eed88-b47d-43b3-8fdf-af2b07839211",
+    "reused": false,
+    "prompt": "Small hedge leaves lightly rustling in a gentle steady breeze, close, dry, no other sources.",
+    "source": "generated",
+    "name": "small-hedge-leaves-lightly",
+    "licence": "generated:elevenlabs",
+    "generator": {
+      "provider": "elevenlabs",
+      "model": "eleven_text_to_sound_v2"
+    },
+    "qa": {
+      "heard": "close-up leaf rustling in a breeze",
+      "verdict": "pass"
+    },
+    "sha256": "4bd6e52ee2a1a0cc14b1d55844b0027ad28a70ec4cb03cd3825bb083569e1734"
+  },
+  "Audio/generation/evening_birds_evening_calls_b149b3ac_f1e44780": {
+    "url": "https://nfcuwfkfctfpdrwkgvtm.supabase.co/storage/v1/object/public/community-samples/03fc88eb-3543-4c6a-be00-0ca7bc7bf667/game-takes/31c215bc-67bf-4847-9539-9b51595344e7.mp3",
+    "sampleId": "31c215bc-67bf-4847-9539-9b51595344e7",
+    "reused": false,
+    "prompt": "A songbird giving short relaxed evening calls with generous pauses between phrases, close, dry, no other sources.",
+    "source": "generated",
+    "name": "songbird-giving-short-relaxed",
+    "licence": "generated:elevenlabs",
+    "generator": {
+      "provider": "elevenlabs",
+      "model": "eleven_text_to_sound_v2"
+    },
+    "qa": {
+      "heard": "a bird chirping isolated and dry",
+      "verdict": "pass"
+    },
+    "sha256": "32a6db3ad39ce7b344fae79a61c1cd4f77c561fbc9661caff9083ecb198e0376"
+  }
+}

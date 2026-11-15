@@ -60,62 +60,63 @@ button:disabled {
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: linear-gradient(90deg, rgb(9 17 16 / 76%), rgb(9 17 16 / 20%));
-  transition: opacity 450ms ease, visibility 450ms ease;
+  background: rgb(9 17 16 / 42%);
 }
 
 .welcome[hidden] {
   display: none;
 }
 
-.welcome-card {
-  width: min(100%, 28rem);
-  margin-right: auto;
-  padding: clamp(1.5rem, 5vw, 3.25rem);
+.status {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  z-index: 3;
+  width: min(32rem, calc(100vw - 2rem));
+  margin: 0;
+  padding: 0.75rem 1rem;
   border: 1px solid rgb(238 240 222 / 20%);
-  border-radius: 1.25rem;
-  background: rgb(17 26 25 / 82%);
-  box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 28%);
-  backdrop-filter: blur(18px);
-}
-
-.eyebrow,
-.hint,
-.status {
+  border-radius: 0.75rem;
   color: #c3ccaa;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  background: rgb(17 26 25 / 92%);
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 22%);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: center;
+  transform: translateX(-50%);
 }
 
-h1 {
-  margin: 0.55rem 0 1rem;
-  font-size: clamp(2.4rem, 7vw, 4rem);
-  line-height: 1;
-  letter-spacing: -0.06em;
+.audio-controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  width: min(14rem, calc(100vw - 2rem));
+  padding: 0.85rem 1rem;
+  border: 1px solid rgb(238 240 222 / 20%);
+  border-radius: 0.9rem;
+  color: #eef0de;
+  background: rgb(17 26 25 / 86%);
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 22%);
+  backdrop-filter: blur(12px);
 }
 
-.description {
-  max-width: 26rem;
-  margin: 0 0 1.5rem;
-  color: #e0e3d3;
-  font-size: 1rem;
-  line-height: 1.6;
+.audio-controls label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.82rem;
 }
 
-.status {
-  min-height: 1.1rem;
-  margin: 1rem 0 0;
-  font-size: 0.67rem;
-  letter-spacing: 0.04em;
-  text-transform: none;
+.audio-controls output {
+  color: #c3ccaa;
+  font-variant-numeric: tabular-nums;
 }
 
-.hint {
-  margin: 1.1rem 0 0;
-  font-size: 0.67rem;
-  letter-spacing: 0.03em;
-  text-transform: none;
+.audio-controls input {
+  width: 100%;
+  margin: 0.7rem 0 0;
+  accent-color: #d3ddad;
 }
 
 .vr-button {
@@ -126,12 +127,7 @@ h1 {
 }
 
 @media (max-width: 600px) {
-  .welcome {
-    align-items: end;
-    background: linear-gradient(0deg, rgb(9 17 16 / 84%), transparent);
-  }
-
-  .welcome-card {
-    margin: 0;
+  .status {
+    bottom: 4.5rem;
   }
 }

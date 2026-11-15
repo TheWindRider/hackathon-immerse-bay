@@ -9,6 +9,8 @@ const canvas = getElement<HTMLCanvasElement>('world');
 const welcome = getElement<HTMLElement>('welcome');
 const startButton = getElement<HTMLButtonElement>('start');
 const status = getElement<HTMLElement>('status');
+const volumeControl = getElement<HTMLInputElement>('volume');
+const volumeValue = getElement<HTMLOutputElement>('volume-value');
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -173,6 +175,13 @@ let satieAudio: SatieScene | null = null;
 let mixer: MountedMixer | undefined;
 let credit: SatieBadge | undefined;
 
+volumeControl.addEventListener('input', () => {
+  const volume = volumeControl.valueAsNumber;
+  volumeValue.value = `${volume}%`;
+  volumeValue.textContent = `${volume}%`;
+  satieAudio?.engine.setMasterVolume(volume / 100);
+});
+
 async function loadSatieAudio(): Promise<SatieScene> {
   const { SatieScene } = await import('satie-runtime/three');
   const response = await fetch('/satie/scene.contract.json');
@@ -206,14 +215,14 @@ async function loadSatieAudio(): Promise<SatieScene> {
 const audioReady = loadSatieAudio()
   .then((audio) => {
     satieAudio = audio;
+    audio.engine.setMasterVolume(volumeControl.valueAsNumber / 100);
+    volumeControl.disabled = false;
     credit = badge({
       dev: import.meta.env.DEV,
       ready: Promise.resolve(audio),
       onOpen: () => mixer?.open(),
     });
     credit.intro();
-    status.textContent = 'Sound scene ready. Start the courtyard when you are ready.';
-    startButton.textContent = 'Enter the courtyard';
 
     if (import.meta.env.DEV) {
       void import('satie-runtime/three')
@@ -233,6 +242,7 @@ const audioReady = loadSatieAudio()
         .catch((error: unknown) => {
           console.error('Satie mixer could not be loaded:', error);
           status.textContent = 'Audio is ready, but the development mixer could not be loaded.';
+          status.hidden = false;
         });
     }
 
@@ -242,7 +252,7 @@ const audioReady = loadSatieAudio()
     const message = error instanceof Error ? error.message : String(error);
     console.error('Satie audio could not be loaded:', error);
     status.textContent = `Audio unavailable: ${message} The visual world is still ready.`;
-    startButton.textContent = 'Enter the courtyard';
+    status.hidden = false;
     return null;
   })
   .finally(() => {
@@ -262,6 +272,7 @@ function enterWorld(): void {
       (error: unknown) => {
         console.error('Satie audio failed to start:', error);
         status.textContent = 'Audio could not start. Check browser audio permissions and try again.';
+        status.hidden = false;
       },
     );
     return;
@@ -280,6 +291,35 @@ if (vrButton instanceof HTMLButtonElement) {
 }
 vrButton.addEventListener('click', enterWorld);
 document.body.append(vrButton);
+
+const movementKeys = new Set([
+  'w', 'a', 's', 'd',
+  'arrowup', 'arrowleft', 'arrowdown', 'arrowright',
+]);
+const pressedKeys = new Set<string>();
+
+window.addEventListener('keydown', (event) => {
+  const key = event.key.toLowerCase();
+  if (!movementKeys.has(key) || !welcome.hidden || renderer.xr.isPresenting) {
+    return;
+  }
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.closest('button, input, select, textarea, [contenteditable="true"]')
+  ) {
+    return;
+  }
+  event.preventDefault();
+  pressedKeys.add(key);
+});
+
+window.addEventListener('keyup', (event) => {
+  pressedKeys.delete(event.key.toLowerCase());
+});
+
+window.addEventListener('blur', () => {
+  pressedKeys.clear();
+});
 
 renderer.xr.addEventListener('sessionstart', () => {
   credit?.hide();
@@ -337,7 +377,49 @@ canvas.addEventListener('pointercancel', () => {
   dragging = false;
 });
 
-renderer.setAnimationLoop(() => {
+const movement = new THREE.Vector3();
+const forward = new THREE.Vector3();
+const right = new THREE.Vector3();
+let previousFrameTime = 0;
+
+function updateMovement(deltaSeconds: number): void {
+  if (pressedKeys.size === 0 || !welcome.hidden || renderer.xr.isPresenting) {
+    return;
+  }
+
+  const forwardAmount =
+    Number(pressedKeys.has('w') || pressedKeys.has('arrowup')) -
+    Number(pressedKeys.has('s') || pressedKeys.has('arrowdown'));
+  const rightAmount =
+    Number(pressedKeys.has('d') || pressedKeys.has('arrowright')) -
+    Number(pressedKeys.has('a') || pressedKeys.has('arrowleft'));
+  if (forwardAmount === 0 && rightAmount === 0) {
+    return;
+  }
+
+  forward.set(0, 0, -1).applyQuaternion(rig.quaternion);
+  forward.y = 0;
+  forward.normalize();
+  right.set(1, 0, 0).applyQuaternion(rig.quaternion);
+  right.y = 0;
+  right.normalize();
+  movement
+    .set(0, 0, 0)
+    .addScaledVector(forward, forwardAmount)
+    .addScaledVector(right, rightAmount)
+    .normalize();
+
+  rig.position.addScaledVector(movement, 2.5 * deltaSeconds);
+  rig.position.x = THREE.MathUtils.clamp(rig.position.x, -4.4, 4.4);
+  rig.position.z = THREE.MathUtils.clamp(rig.position.z, -2, 11.2);
+}
+
+renderer.setAnimationLoop((time) => {
+  const deltaSeconds = previousFrameTime === 0
+    ? 0
+    : Math.min((time - previousFrameTime) / 1000, 0.05);
+  previousFrameTime = time;
+  updateMovement(deltaSeconds);
   worldRoot.updateMatrixWorld(true);
   satieAudio?.update(camera);
   renderer.render(scene, camera);

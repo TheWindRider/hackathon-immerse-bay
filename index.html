@@ -10,17 +10,16 @@
     <main id="app">
       <canvas id="world" aria-label="A twilight courtyard garden"></canvas>
       <section id="welcome" class="welcome">
-        <div class="welcome-card">
-          <p class="eyebrow">A small world, made with Satie</p>
-          <h1>The Courtyard</h1>
-          <p class="description">
-            Step into a quiet garden at twilight. Look toward the fountain and listen.
-          </p>
-          <button id="start" type="button" disabled>Loading world…</button>
-          <p id="status" class="status" role="status">Loading the world and its sound.</p>
-          <p class="hint">Use the VR button to enter with a compatible headset.</p>
-        </div>
+        <button id="start" type="button" disabled>Enter Courtyard</button>
       </section>
+      <p id="status" class="status" role="status" hidden></p>
+      <aside id="audio-controls" class="audio-controls" aria-label="Audio settings">
+        <label for="volume">
+          <span>Volume</span>
+          <output id="volume-value" for="volume">100%</output>
+        </label>
+        <input id="volume" type="range" min="0" max="200" value="100" step="1" disabled />
+      </aside>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
